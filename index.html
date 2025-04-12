@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STYLE | Clothing Store</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f2f2f2;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 30px;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .image-placeholder {
+      height: 180px;
+      background: linear-gradient(135deg, #e0e0e0, #cfcfcf);
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    .sizes button {
+      margin: 5px 5px 0 0;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      background-color: #fafafa;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .sizes button:hover {
+      background-color: #eaeaea;
+    }
+    .buy-btn, .checkout-btn {
+      padding: 10px;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+    .buy-btn:hover, .checkout-btn:hover {
+      background-color: #333;
+    }
+    .cart {
+      margin-top: 50px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>STYLE</h1>
+  <div class="products" id="product-list"></div>
+
+  <div class="cart">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <div class="total">
+      <span>Total</span>
+      <span id="total-price">$0.00</span>
+    </div>
+    <button class="checkout-btn">Checkout</button>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, name: 'Oversized Tee', price: 39.99, sizes: ['S', 'M', 'L', 'XL'] },
+      { id: 2, name: 'Denim Jacket', price: 59.99, sizes: ['S', 'M', 'L', 'XL'] },
+      { id: 3, name: 'Cargo Pants', price: 49.99, sizes: ['S', 'M', 'L', 'XL'] }
+    ];
+
+    const productList = document.getElementById('product-list');
+    const cartItems = document.getElementById('cart-items');
+    const totalPrice = document.getElementById('total-price');
+    let cart = [];
+
+    function addToCart(product) {
+      cart.push(product);
+      renderCart();
+    }
+
+    function renderCart() {
+      cartItems.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `<span>${item.name}</span><span>$${item.price.toFixed(2)}</span>`;
+        cartItems.appendChild(div);
+        total += item.price;
+      });
+      totalPrice.textContent = `$${total.toFixed(2)}`;
+    }
+
+    products.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="image-placeholder"></div>
+        <h2>${product.name}</h2>
+        <p style="margin-bottom: 8px;">$${product.price.toFixed(2)}</p>
+        <div class="sizes">
+          ${product.sizes.map(size => `<button>${size}</button>`).join('')}
+        </div>
+        <button class="buy-btn">Buy Now</button>
+      `;
+      card.querySelector('.buy-btn').addEventListener('click', () => addToCart(product));
+      productList.appendChild(card);
+    });
+  </script>
+</body>
+</html>
+
+
